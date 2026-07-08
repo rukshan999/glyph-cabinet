@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glyph Cabinet — 1000+ Symbols Nobody's Using Yet</title>
+<style>
+  :root{
+    --void:#160f1f;
+    --plum:#211533;
+    --card:#2a1d40;
+    --card2:#33244c;
+    --ink:#f3ecf9;
+    --ink-soft:#b6a6cf;
+    --line:rgba(243,236,249,0.12);
+    --line-strong:rgba(243,236,249,0.24);
+    --radius:5px;
+    --accent:#c6ff5e;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--void);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    position:relative;
+  }
+  .blobs{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    overflow:hidden;
+    pointer-events:none;
+  }
+  .blob{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(70px);
+    opacity:0.35;
+    mix-blend-mode:screen;
+  }
+  .blob1{width:520px;height:520px; background:#ff5eb8; top:-140px; left:-100px; animation:driftBlob1 22s ease-in-out infinite;}
+  .blob2{width:460px;height:460px; background:#5ef2ff; top:120px; right:-160px; animation:driftBlob2 26s ease-in-out infinite;}
+  .blob3{width:400px;height:400px; background:#c6ff5e; bottom:-160px; left:30%; animation:driftBlob3 30s ease-in-out infinite;}
+  .blob4{width:340px;height:340px; background:#ffb84d; bottom:10%; right:10%; animation:driftBlob1 24s ease-in-out infinite reverse;}
+  @keyframes driftBlob1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(60px,40px) scale(1.15)}}
+  @keyframes driftBlob2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-50px,60px) scale(0.9)}}
+  @keyframes driftBlob3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,-50px) scale(1.2)}}
+  main, header.hero, .layout, footer{position:relative; z-index:1;}
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    padding:64px 6vw 40px;
+    border-bottom:2px solid var(--line-strong);
+    position:relative;
+  }
+  .eyebrow{
+    font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,Monaco,monospace;
+    font-size:12px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--accent);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+    opacity:0;
+    animation:fadeIn .6s ease .1s forwards;
+  }
+  .eyebrow::before{content:"◆"; font-size:10px; animation:spinslow 4s linear infinite; display:inline-block;}
+  h1.title{
+    font-family:Georgia,'Times New Roman',serif;
+    font-weight:600;
+    font-size:clamp(2.6rem,7vw,5.2rem);
+    line-height:0.98;
+    margin:0 0 18px;
+    letter-spacing:-0.01em;
+  }
+  h1.title .letter{
+    display:inline-block;
+    opacity:0;
+    transform:translateY(0.6em) rotate(4deg);
+    animation:letterIn .7s cubic-bezier(.2,.9,.25,1) forwards;
+  }
+  h1.title .line2{
+    display:block;
+    font-style:italic;
+    font-weight:500;
+    background:linear-gradient(100deg,#ff5eb8,#ffb84d,#c6ff5e,#5ef2ff,#ff5eb8);
+    background-size:300% auto;
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation:gradientMove 6s linear infinite;
+  }
+  @keyframes letterIn{to{opacity:1; transform:translateY(0) rotate(0);}}
+  @keyframes fadeIn{to{opacity:1;}}
+  @keyframes gradientMove{to{background-position:300% center;}}
+  .lede{
+    max-width:640px;
+    font-size:16px;
+    line-height:1.6;
+    color:var(--ink-soft);
+    margin:0 0 28px;
+    opacity:0;
+    animation:fadeIn .7s ease .5s forwards;
+  }
+  .stats-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:0;
+    border:1px solid var(--line-strong);
+    width:max-content;
+    max-width:100%;
+    font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,Monaco,monospace;
+    background:rgba(255,255,255,0.02);
+    backdrop-filter:blur(6px);
+    opacity:0;
+    animation:fadeIn .7s ease .7s forwards;
+  }
+  .stat{
+    padding:10px 20px;
+    border-right:1px solid var(--line-strong);
+  }
+  .stat:last-child{border-right:none;}
+  .stat b{display:block; font-size:20px; color:var(--accent);}
+  .stat span{font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-soft);}
+
+  .search-wrap{
+    margin-top:30px;
+    max-width:520px;
+    opacity:0;
+    animation:fadeIn .7s ease .9s forwards;
+  }
+  #search{
+    width:100%;
+    padding:13px 16px;
+    font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,Monaco,monospace;
+    font-size:14px;
+    background:var(--card);
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius);
+    color:var(--ink);
+    outline:none;
+    transition:box-shadow .2s ease, border-color .2s ease;
+  }
+  #search::placeholder{color:var(--ink-soft);}
+  #search:focus{border-color:var(--accent); box-shadow:0 0 0 3px rgba(198,255,94,0.18);}
+
+  /* ---------- LAYOUT ---------- */
+  .layout{
+    display:grid;
+    grid-template-columns:220px 1fr;
+    gap:0;
+  }
+  nav.drawer{
+    border-right:2px solid var(--line-strong);
+    padding:26px 0;
+    position:sticky;
+    top:0;
+    align-self:start;
+    height:100vh;
+    overflow-y:auto;
+  }
+  nav.drawer .drawer-label{
+    font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,Monaco,monospace;
+    font-size:10px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    padding:0 20px 12px;
+  }
+  nav.drawer a{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    padding:9px 20px;
+    text-decoration:none;
+    color:var(--ink);
+    font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,Monaco,monospace;
+    font-size:12.5px;
+    border-left:3px solid transparent;
+    transition:border-color .15s ease, background .15s ease, padding-left .15s ease;
+  }
+  nav.drawer a::before{
+    content:"";
+    width:7px; height:7px; border-radius:50%;
+    background:var(--dot,var(--accent));
+    flex-shrink:0;
+    margin-right:8px;
+    box-shadow:0 0 8px var(--dot,var(--accent));
+  }
+  nav.drawer a .n{color:var(--ink-soft); font-size:11px;}
+  nav.drawer a:hover, nav.drawer a.active{
+    border-left-color:var(--dot,var(--accent));
+    background:rgba(255,255,255,0.05);
+    padding-left:24px;
+  }
+
+  main{padding:10px 4vw 100px;}
+
+  section.cat{
+    padding:44px 0 8px;
+    border-bottom:1px solid var(--line);
+    scroll-margin-top:12px;
+  }
+  section.cat:first-of-type{padding-top:30px;}
+  .cat-head{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    margin-bottom:6px;
+    flex-wrap:wrap;
+  }
+  .cat-head h2{
+    font-family:Georgia,'Times New Roman',serif;
+    font-weight:600;
+    font-size:26px;
+    margin:0;
+    position:relative;
+    padding-left:16px;
+  }
+  .cat-head h2::before{
+    content:"";
+    position:absolute; left:0; top:6px; bottom:6px; width:5px;
+    background:var(--accent);
+    border-radius:3px;
+  }
+  .cat-head .count{
+    font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,Monaco,monospace;
+    font-size:11px;
+    color:var(--accent);
+    border:1px solid var(--accent);
+    padding:3px 8px;
+    border-radius:20px;
+  }
+  .cat-desc{
+    font-size:13.5px;
+    color:var(--ink-soft);
+    max-width:640px;
+    margin:0 0 22px;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(108px,1fr));
+    gap:10px;
+    margin-bottom:8px;
+  }
+
+  .card{
+    position:relative;
+    background:var(--card);
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius);
+    padding:14px 8px 10px;
+    text-align:center;
+    cursor:pointer;
+    user-select:none;
+    -webkit-user-select:none;
+    transition:border-color .15s ease, transform .15s ease, box-shadow .15s ease, background .15s ease;
+    opacity:0;
+    transform:translateY(16px) scale(.96);
+  }
+  .card.in-view{
+    animation:cardReveal .5s cubic-bezier(.2,.8,.3,1) forwards;
+  }
+  @keyframes cardReveal{to{opacity:1; transform:translateY(0) scale(1);}}
+  .card::before{
+    content:"";
+    position:absolute; top:6px; left:6px; right:6px;
+    border-top:1px dashed var(--line);
+  }
+  .card:hover{
+    border-color:var(--accent);
+    background:var(--card2);
+    transform:translateY(-4px) scale(1.03);
+    box-shadow:0 6px 0 rgba(0,0,0,0.25), 0 0 20px -4px var(--accent);
+    z-index:2;
+  }
+  .card:active{transform:translateY(-1px) scale(.97);}
+  .glyph{
+    font-size:30px;
+    line-height:1.3;
+    display:block;
+    margin-top:6px;
+    color:var(--ink);
+    font-family:'Noto Sans Symbols','Noto Sans Symbols2','Noto Sans Math','Segoe UI Symbol','Segoe UI Historic','Apple Symbols',system-ui,sans-serif;
+  }
+  .label{
+    display:block;
+    margin-top:8px;
+    font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,Monaco,monospace;
+    font-size:9px;
+    letter-spacing:0.02em;
+    color:var(--ink-soft);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .card.copied{border-color:var(--accent); background:var(--card2); box-shadow:0 0 24px -2px var(--accent);}
+
+  /* ambient per-category animation, applied to .glyph */
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+  @keyframes pulse{0%,100%{transform:scale(1); opacity:1}50%{transform:scale(1.12); opacity:.85}}
+  @keyframes driftx{0%,100%{transform:translateX(0)}50%{transform:translateX(3px)}}
+  @keyframes spinslow{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+  @keyframes flicker{0%,100%{opacity:1}45%{opacity:1}50%{opacity:.35}55%{opacity:1}}
+  @keyframes shimmer{0%,100%{filter:brightness(1)}50%{filter:brightness(1.4)}}
+  @keyframes sway{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+  @keyframes rise{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-3px) scale(1.05)}}
+
+  .anim-float .glyph{animation:floaty 3.2s ease-in-out infinite;}
+  .anim-pulse .glyph{animation:pulse 2.4s ease-in-out infinite;}
+  .anim-drift .glyph{animation:driftx 2.8s ease-in-out infinite;}
+  .anim-spin .glyph{animation:spinslow 6s linear infinite;}
+  .anim-flicker .glyph{animation:flicker 3s ease-in-out infinite;}
+  .anim-shimmer .glyph{animation:shimmer 2.6s ease-in-out infinite;}
+  .anim-sway .glyph{animation:sway 2.6s ease-in-out infinite; transform-origin:50% 80%;}
+  .anim-rise .glyph{animation:rise 2.8s ease-in-out infinite;}
+  .card:hover .glyph{animation-play-state:paused;}
+
+  /* toast */
+  #toast{
+    position:fixed;
+    left:50%;
+    bottom:26px;
+    transform:translate(-50%,20px);
+    background:var(--card2);
+    border:1px solid var(--accent);
+    color:var(--ink);
+    font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,Monaco,monospace;
+    font-size:13px;
+    padding:11px 20px;
+    border-radius:20px;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .2s ease, transform .2s ease;
+    z-index:50;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    box-shadow:0 0 24px -4px var(--accent);
+  }
+  #toast .g{font-size:16px;}
+  #toast.show{opacity:1; transform:translate(-50%,0);}
+
+  .empty-msg{
+    font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,Monaco,monospace;
+    font-size:13px;
+    color:var(--ink-soft);
+    padding:60px 0;
+    text-align:center;
+  }
+
+  footer{
+    border-top:2px solid var(--line-strong);
+    padding:26px 6vw 40px;
+    font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,Monaco,monospace;
+    font-size:11.5px;
+    color:var(--ink-soft);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+
+  /* 2D icon pack cards */
+  .card.icon-card .glyph{
+    width:44px; height:44px; margin:6px auto 0;
+    animation:none !important;
+  }
+  .card.icon-card:hover .glyph svg{transform:scale(1.12) rotate(-4deg);}
+  .card.icon-card .glyph svg{transition:transform .2s ease; display:block;}
+
+  @media (max-width:820px){
+    .layout{grid-template-columns:1fr;}
+    nav.drawer{
+      position:static;
+      height:auto;
+      display:flex;
+      overflow-x:auto;
+      padding:14px 0;
+      border-right:none;
+      border-bottom:2px solid var(--line-strong);
+    }
+    nav.drawer .drawer-label{display:none;}
+    nav.drawer a{
+      border-left:none;
+      border-bottom:3px solid transparent;
+      white-space:nowrap;
+      padding:8px 14px;
+    }
+    nav.drawer a:hover, nav.drawer a.active{border-bottom-color:var(--dot,var(--accent)); background:transparent; padding-left:14px;}
+  }
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+</style>
+</head>
+<body>
+<div class="blobs">
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <div class="blob blob3"></div>
+  <div class="blob blob4"></div>
+</div>
+
+
+<header class="hero">
+  <div class="eyebrow">Specimen Catalog · No. 001</div>
+  <h1 class="title" id="mainTitle"></h1>
+  <p class="lede">Over a thousand text symbols — arrows, marks, alchemical signs, dot-art, technical glyphs — plus an original 2D icon pack you can copy as an image, like a sticker. Real Unicode where possible, so it pastes cleanly into WhatsApp, iMessage, Instagram bios, anywhere text goes. Tap any tile to copy.</p>
+  <div class="stats-row" id="statsRow">
+    <div class="stat"><b id="statTotal">—</b><span>Symbols</span></div>
+    <div class="stat"><b id="statCats">—</b><span>Categories</span></div>
+    <div class="stat"><b>1</b><span>Tap to copy</span></div>
+  </div>
+  <div class="search-wrap">
+    <input id="search" type="text" placeholder="Search by name or category… try 'arrow', 'face', 'star'" autocomplete="off">
+  </div>
+</header>
+
+<div class="layout">
+  <nav class="drawer" id="drawer">
+    <div class="drawer-label">Drawers</div>
+  </nav>
+  <main id="main"></main>
+</div>
+
+<footer>
+  <span>Glyph Cabinet — plain-text Unicode specimens</span>
+  <span id="footCount">building catalog…</span>
+</footer>
+
+<div id="toast"><span class="g" id="toastGlyph"></span><span id="toastText">Copied</span></div>
+
+<script>
+/* =========================================================
+   HERO TITLE — staggered letter animation
+   ========================================================= */
+(function buildTitle(){
+  const el = document.getElementById('mainTitle');
+  const line1 = 'The Glyph';
+  const line2 = 'Cabinet';
+  let delay = 0;
+  line1.split('').forEach(ch=>{
+    const span = document.createElement('span');
+    span.className = 'letter';
+    span.style.animationDelay = delay + 's';
+    span.textContent = ch === ' ' ? '\u00A0' : ch;
+    delay += 0.035;
+    el.appendChild(span);
+  });
+  el.appendChild(document.createElement('br'));
+  const wrap = document.createElement('span');
+  wrap.className = 'line2';
+  line2.split('').forEach(ch=>{
+    const span = document.createElement('span');
+    span.className = 'letter';
+    span.style.animationDelay = delay + 's';
+    span.textContent = ch === ' ' ? '\u00A0' : ch;
+    delay += 0.035;
+    wrap.appendChild(span);
+  });
+  el.appendChild(wrap);
+})();
+
+/* =========================================================
+   DATA — curated sets + generated Unicode block ranges
+   ========================================================= */
+
+const ANIMS = ['anim-float','anim-pulse','anim-drift','anim-spin','anim-flicker','anim-shimmer','anim-sway','anim-rise'];
+const ACCENTS = ['#ff5eb8','#5ef2ff','#c6ff5e','#ffb84d','#b18cff','#ff7a5e','#5effc0','#ffe45e','#5e9eff','#ff5e7a','#c0ff5e','#e05eff','#5efff2','#ffa65e','#8cff5e','#ff5ec0','#5e7aff'];
+
+function block(start, end, exclude, animClass, step){
+  step = step || 1;
+  exclude = exclude || [];
+  const out = [];
+  for(let cp=start; cp<=end; cp+=step){
+    if(exclude.indexOf(cp) !== -1) continue;
+    let ch;
+    try{ ch = String.fromCodePoint(cp); }catch(e){ continue; }
+    out.push({ sym: ch, name: 'U+'+cp.toString(16).toUpperCase().padStart(4,'0'), anim: animClass });
+  }
+  return out;
+}
+
+const CATS = [];
+
+/* ---- 1. Kaomoji Faces (curated) ---- */
+CATS.push({
+  key:'kaomoji', title:'Kaomoji Faces', anim:'anim-rise',
+  desc:'Full-face text expressions built from punctuation — no picture emoji involved, so they render identically everywhere.',
+  items:[
+    ['(◕‿◕)','content'],['(¬‿¬)','sly'],['(＾▽＾)','beaming'],['(￣ω￣)','smug'],['(⊙_⊙)','startled'],
+    ['(´･_･`)','uneasy'],['(｡•́︿•̀｡)','sad'],['(╯°□°）╯','flip table'],['┬─┬ノ( º _ ºノ)','put table back'],
+    ['(ノ_<。)','crying'],['(≧◡≦)','joyful'],['(¬‿¬)','wink smirk'],['(ᵔᴥᵔ)','puppy'],['(－‸ლ)','done with this'],
+    ['(°ロ°) !','shocked'],['(⌐■_■)','cool'],['ヽ(°〇°)ﾉ','excited yell'],['(๑˃ᴗ˂)ﻭ','determined'],
+    ['(づ￣ ³￣)づ','hug offer'],['ʕ•ᴥ•ʔ','bear'],['(=^･ω･^=)','cat'],['(－‧̀͡-‧́)','side eye'],
+    ['(灬º‿º灬)”','shy blush'],['(ノಠ益ಠ)ノ彡┻━┻','angry flip'],['(っ˘ω˘ς )','sleepy'],
+    ['(⁄ ⁄•⁄ω⁄•⁄ ⁄)','flustered'],['ヽ(´▽`)/','cheering'],['(눈_눈)','skeptical'],['(ㆆ_ㆆ)','suspicious'],
+    ['٩(◕‿◕)۶','happy bounce'],['(っ◔◡◔)っ','offering hug'],['ლ(ಠ益ಠლ)','rage'],['(⊃｡•́‿•̀｡)⊃','gentle hug'],
+    ['(ᵕ—ᴗ—)','peaceful'],['(*≧ω≦)','giddy'],['(－_－) zzZ','sleeping'],['(ノ°益°)ノ','frustrated throw'],
+    ['(๑•̀ㅂ•́)و✧','ready to win'],['(◍•ᴗ•◍)','sweet'],['(⁀ᗢ⁀)','little smile'],['(｡◕‿◕｡)','sweet round eyes'],
+    ['(ᵒ̴̶̷̥́ _ᵒ̴̶̷̣̥̀ )','worried'],['ᕕ( ᐛ )ᕗ','running off'],['(∩｀-´)⊃━☆ﾟ.*','casting spell'],
+    ['(｡♥‿♥｡)','in love'],['ヽ(ﾟдﾟ)ノ','panic'],['(￢_￢;)','doubtful'],['(ᵔ ᵕ ᵔ)','calm'],
+    ['(ง •̀_•́)ง','ready to fight'],['(ᵔ.ᵔ)','gentle'],['(๑¯∀¯๑)','half smile'],['ヾ(＾-＾)ノ','waving'],
+    ['(∪ ◡ ∪)','shy smile'],['(◔_◔)','confused stare'],['(ᵃᴥᵃ)','tiny creature'],['(ᵔᴗᵔ)','satisfied'],
+    ['(*￣3￣)╭','kiss'],['(눈‸눈)','tired stare'],['ヽ(ー_ー )ノ','shrug'],['(⊙ω⊙)','wide-eyed'],
+    ['(ˇ⊖ˇ)~','yawning'],['ヽ(＾Д＾)ﾉ','laughing'],['(っ˘ڡ˘ς)','yummy'],['(ᴗ_ᴗ)','shy peek'],
+    ['ヽ(͡◕ ͜ʖ ͡◕)ﾉ','cheeky'],['(￣﹃￣)','drooling'],['(－.－)....zzZ','dozing off'],
+    ['ᕙ(⇀‸↼‶)ᕗ','flexing'],['( ˘ ³˘)♥','blowing kiss'],['(๑˘︶˘๑)','warm smile'],
+    ['(ノ￣ω￣)ノ','cheerful wave'],['(-_-)zzz','asleep'],['( ˙-˙ )','plain face'],
+    ['ヾ(≧▽≦*)o','bursting joy'],['(⁎˃ᆺ˂)','cute grin']
+  ].map(([sym,name])=>({sym,name}))
+});
+
+/* ---- 2. Everyday Marks & Punctuation (curated, genuinely useful daily) ---- */
+CATS.push({
+  key:'marks', title:'Everyday Marks', anim:'anim-pulse',
+  desc:'The workhorse symbols worth having on hand: footnotes, degrees, checks, legal marks, editorial signs.',
+  items:[
+    ['†','dagger'],['‡','double dagger'],['§','section'],['¶','pilcrow'],['©','copyright'],['®','registered'],
+    ['™','trademark'],['℠','service mark'],['°','degree'],['±','plus-minus'],['×','multiply'],['÷','divide'],
+    ['≈','approx equal'],['≠','not equal'],['≤','less-equal'],['≥','greater-equal'],['∞','infinity'],
+    ['√','square root'],['∴','therefore'],['∵','because'],['‰','per mille'],['‱','per ten thousand'],
+    ['№','numero'],['✓','check'],['✗','cross'],['•','bullet'],['‣','triangular bullet'],['◦','white bullet'],
+    ['·','middle dot'],['…','ellipsis'],['‖','double vertical'],['¦','broken bar'],['‗','double underline'],
+    ['‽','interrobang'],['⁂','asterism'],['※','reference mark'],['⁑','two asterisks'],['⁕','flower mark'],
+    ['‾','overline'],['_','underline'],['‐','hyphen'],['‑','non-break hyphen'],['–','en dash'],['—','em dash'],
+    ['―','horizontal bar'],['⁀','tie'],['‸','caret'],['⁃','hyphen bullet'],['·','interpunct'],
+    ['ª','ordinal a'],['º','ordinal o'],['¤','currency generic'],['¬','not sign'],['⌀','diameter'],
+    ['∎','end of proof'],['∅','empty set'],['∀','for all'],['∃','there exists'],['∈','element of'],
+    ['∉','not element'],['⊂','subset'],['⊆','subset-eq'],['∪','union'],['∩','intersection'],['∝','proportional']
+  ].map(([sym,name])=>({sym,name}))
+});
+
+/* ---- 3. Arrows — generated (full assigned block, all safe plain-text) ---- */
+CATS.push({
+  key:'arrows', title:'Arrows', anim:'anim-drift',
+  desc:'The complete plain-text arrow block — direction, motion and flow, none of it rendered as picture emoji.',
+  items: block(0x2190, 0x21FF, [], null).map(x=>({sym:x.sym, name:x.name}))
+});
+
+/* ---- 4. Math & Logic — generated (full assigned block) ---- */
+CATS.push({
+  key:'math', title:'Math & Logic', anim:'anim-shimmer',
+  desc:'Operators, set theory and logic notation — a whole alphabet of reasoning, ready to paste.',
+  items: block(0x2200, 0x22FF, [], null).map(x=>({sym:x.sym, name:x.name}))
+});
+
+/* ---- 5. Currency (curated + generated block) ---- */
+CATS.push({
+  key:'currency', title:'Currency', anim:'anim-pulse',
+  desc:'World currency signs, common and obscure.',
+  items:[
+    ['$','dollar'],['¢','cent'],['£','pound'],['¥','yen'],['€','euro'],['₹','rupee'],['₩','won'],
+    ['₽','ruble'],['₺','lira'],['₴','hryvnia'],['₦','naira'],['₫','dong'],['₪','shekel'],['₱','peso'],
+    ['฿','baht'],['₭','kip'],['₮','tugrik'],['₲','guarani'],['₡','colon'],['₵','cedi'],['₸','tenge'],
+    ['₼','manat'],['₾','lari'],['₠','ecu'],['₢','cruzeiro'],['₣','french franc'],['₤','lira sign'],
+    ['₥','mill'],['₧','peseta'],['₨','rupee sign'],['₯','drachma'],['₰','german penny']
+  ].map(([sym,name])=>({sym,name}))
+});
+
+/* ---- 6. Geometric Shapes — generated (full assigned block) ---- */
+CATS.push({
+  key:'shapes', title:'Geometric Shapes', anim:'anim-spin',
+  desc:'Squares, circles, triangles and diamonds in every fill and orientation.',
+  items: block(0x25A0, 0x25FF, [], null).map(x=>({sym:x.sym, name:x.name}))
+});
+
+/* ---- 7. Box Drawing & Blocks — generated ---- */
+CATS.push({
+  key:'box', title:'Box Drawing & Blocks', anim:'anim-float',
+  desc:'The line and block set used to build ASCII-art borders, tables and bars.',
+  items: block(0x2500, 0x259F, [], null).map(x=>({sym:x.sym, name:x.name}))
+});
+
+/* ---- 8. Braille Art Patterns — generated (sampled) ---- */
+CATS.push({
+  key:'braille', title:'Braille Dot Patterns', anim:'anim-flicker',
+  desc:'Every dot combination of the Braille cell — pure geometric texture, one character each.',
+  items: block(0x2800, 0x28FF, [], null).map(x=>({sym:x.sym, name:x.name}))
+});
+
+/* ---- 9. Letterlike & Legal Symbols — generated ---- */
+CATS.push({
+  key:'letterlike', title:'Letterlike Symbols', anim:'anim-sway',
+  desc:'Single characters that stand in for whole words — legal, scientific and typographic shorthand.',
+  items: block(0x2100, 0x214F, [0x2117,0x2118], null).map(x=>({sym:x.sym, name:x.name}))
+});
+
+/* ---- 10. Enclosed Numbers & Letters — generated ---- */
+CATS.push({
+  key:'enclosed', title:'Enclosed Numbers & Letters', anim:'anim-pulse',
+  desc:'Circled and bracketed numerals and letters — perfect for lists and rankings.',
+  items: block(0x2460, 0x24FF, [0x24C2], null).map(x=>({sym:x.sym, name:x.name}))
+});
+
+/* ---- 11. Alchemical & Astro Symbols — generated + curated planets ---- */
+CATS.push({
+  key:'alchemy', title:'Alchemical & Planetary', anim:'anim-rise',
+  desc:'17th-century alchemical notation plus the classical planetary signs — old symbols, unused by anyone’s keyboard.',
+  items: [
+    ['☉','the sun'],['☾','the moon'],['☿','mercury'],['♀','venus'],['♂','mars'],['♃','jupiter'],
+    ['♄','saturn'],['♅','uranus'],['♆','neptune'],['♇','pluto']
+  ].map(([sym,name])=>({sym,name})).concat(block(0x1F700, 0x1F773, [], null).map(x=>({sym:x.sym, name:x.name})))
+});
+
+/* ---- 12. Music & Editorial Marks (curated) ---- */
+CATS.push({
+  key:'music', title:'Music & Notation', anim:'anim-drift',
+  desc:'Notation marks for scores and margins.',
+  items:[
+    ['♭','flat'],['♮','natural'],['♯','sharp'],['𝄞','treble clef'],['𝄢','bass clef'],['𝄪','double sharp'],
+    ['𝄫','double flat'],['♪','eighth note'],['♫','beamed notes'],['♬','beamed sixteenth'],
+    ['𝄐','fermata'],['𝄋','breath mark'],['÷','division'],['⁋','reversed pilcrow'],['❧','floral heart']
+  ].map(([sym,name])=>({sym,name}))
+});
+
+/* ---- 13. Card Suits, Chess & Dice (curated) ---- */
+CATS.push({
+  key:'games', title:'Card, Chess & Dice', anim:'anim-spin',
+  desc:'Suits, chess pieces and dice faces — plain outline glyphs, not colored game emoji.',
+  items:[
+    ['♠','spade'],['♥','heart suit'],['♦','diamond suit'],['♣','club'],['♤','spade outline'],
+    ['♡','heart outline'],['♢','diamond outline'],['♧','club outline'],
+    ['♔','white king'],['♕','white queen'],['♖','white rook'],['♗','white bishop'],['♘','white knight'],['♙','white pawn'],
+    ['♚','black king'],['♛','black queen'],['♜','black rook'],['♝','black bishop'],['♞','black knight'],['♟','black pawn'],
+    ['⚀','die one'],['⚁','die two'],['⚂','die three'],['⚃','die four'],['⚄','die five'],['⚅','die six']
+  ].map(([sym,name])=>({sym,name}))
+});
+
+/* ---- 14. Superscript, Subscript & Fractions (curated) ---- */
+CATS.push({
+  key:'super', title:'Super / Subscript & Fractions', anim:'anim-float',
+  desc:'Raised and lowered figures for footnotes, formulas and units.',
+  items:[
+    ['⁰','sup 0'],['¹','sup 1'],['²','sup 2'],['³','sup 3'],['⁴','sup 4'],['⁵','sup 5'],['⁶','sup 6'],
+    ['⁷','sup 7'],['⁸','sup 8'],['⁹','sup 9'],['⁺','sup plus'],['⁻','sup minus'],['⁼','sup equals'],
+    ['ⁿ','sup n'],['ⁱ','sup i'],
+    ['₀','sub 0'],['₁','sub 1'],['₂','sub 2'],['₃','sub 3'],['₄','sub 4'],['₅','sub 5'],['₆','sub 6'],
+    ['₇','sub 7'],['₈','sub 8'],['₉','sub 9'],['₊','sub plus'],['₋','sub minus'],
+    ['½','half'],['⅓','third'],['⅔','two thirds'],['¼','quarter'],['¾','three quarters'],
+    ['⅕','fifth'],['⅖','two fifths'],['⅗','three fifths'],['⅘','four fifths'],['⅙','sixth'],
+    ['⅐','seventh'],['⅛','eighth'],['⅜','three eighths'],['⅝','five eighths'],['⅞','seven eighths']
+  ].map(([sym,name])=>({sym,name}))
+});
+
+/* ---- 15. Technical & Misc Symbols — generated with emoji-overlap excluded ---- */
+CATS.push({
+  key:'technical', title:'Technical Symbols', anim:'anim-shimmer',
+  desc:'Engineering and interface notation from the Miscellaneous Technical block — clock and media glyphs already used as WhatsApp emoji are filtered out.',
+  items: block(0x2300, 0x23FF, [0x231A,0x231B,0x23E9,0x23EA,0x23EB,0x23EC,0x23ED,0x23EE,0x23EF,0x23F0,0x23F1,0x23F2,0x23F3,0x23F8,0x23F9,0x23FA], null).map(x=>({sym:x.sym, name:x.name}))
+});
+
+/* ---- 16. Stylish Text Alphabets (bonus, curated sample chips) ---- */
+CATS.push({
+  key:'stylish', title:'Stylish Text Sets', anim:'anim-pulse',
+  desc:'Full alternate-alphabet characters (Unicode math styles) — tap a chip to copy that single styled letter, then mix your own words.',
+  items:[
+    ['𝐀','bold A'],['𝐁','bold B'],['𝐂','bold C'],['𝒜','script A'],['ℬ','script B'],['𝒞','script C'],
+    ['𝔸','double-struck A'],['𝔹','double-struck B'],['ℂ','double-struck C'],
+    ['𝕬','fraktur A'],['𝕭','fraktur B'],['𝕮','fraktur C'],
+    ['𝘈','italic A'],['𝘉','italic B'],['𝘊','italic C'],
+    ['Ａ','fullwidth A'],['Ｂ','fullwidth B'],['Ｃ','fullwidth C'],
+    ['🄰','squared A'],['🅐','circled A']
+  ].map(([sym,name])=>({sym,name}))
+});
+
+/* ---- 17. 2D Icon Pack (new — original flat illustrations, copy as image) ---- */
+CATS.push({
+  key:'icons2d', title:'2D Icon Pack', anim:null, isIconPack:true,
+  desc:'Original flat 2D illustrations in a fresh style — not copies of any existing emoji set. Tap to copy the icon as an image straight to your clipboard, so it pastes into WhatsApp, notes, or chats like a sticker.',
+  items:[
+    {name:'sunbeam', svg:'<svg viewBox="0 0 64 64"><g stroke="#ffb84d" stroke-width="3" stroke-linecap="round"><line x1="32" y1="4" x2="32" y2="12"/><line x1="32" y1="52" x2="32" y2="60"/><line x1="4" y1="32" x2="12" y2="32"/><line x1="52" y1="32" x2="60" y2="32"/><line x1="12" y1="12" x2="18" y2="18"/><line x1="46" y1="46" x2="52" y2="52"/><line x1="52" y1="12" x2="46" y2="18"/><line x1="18" y1="46" x2="12" y2="52"/></g><circle cx="32" cy="32" r="14" fill="#ffd15e"/></svg>'},
+    {name:'crescent moon', svg:'<svg viewBox="0 0 64 64"><path d="M40 8a24 24 0 1 0 0 48A20 20 0 0 1 40 8z" fill="#b18cff"/><circle cx="24" cy="24" r="1.6" fill="#f3ecf9"/><circle cx="20" cy="34" r="1" fill="#f3ecf9"/></svg>'},
+    {name:'pop heart', svg:'<svg viewBox="0 0 64 64"><path d="M32 54S10 40 10 24a12 12 0 0 1 22-6 12 12 0 0 1 22 6c0 16-22 30-22 30z" fill="#ff5e8a"/><circle cx="48" cy="12" r="2.5" fill="#ffd15e"/><circle cx="53" cy="20" r="1.5" fill="#ffd15e"/></svg>'},
+    {name:'star burst', svg:'<svg viewBox="0 0 64 64"><path d="M32 6l6.5 17.5L56 30l-17.5 6.5L32 54l-6.5-17.5L8 30l17.5-6.5z" fill="#5ef2ff"/></svg>'},
+    {name:'balloon', svg:'<svg viewBox="0 0 64 64"><ellipse cx="32" cy="24" rx="16" ry="19" fill="#ff5e5e"/><path d="M32 43l3 5-3 3-3-3z" fill="#ff5e5e"/><path d="M32 51c0 6-4 9-4 9" stroke="#b6a6cf" stroke-width="1.5" fill="none"/></svg>'},
+    {name:'umbrella', svg:'<svg viewBox="0 0 64 64"><path d="M8 30a24 24 0 0 1 48 0z" fill="#5ef2ff"/><rect x="30" y="30" width="4" height="22" rx="2" fill="#e8e0f5"/><path d="M30 52a5 5 0 0 0 10 0" stroke="#e8e0f5" stroke-width="3" fill="none" stroke-linecap="round"/></svg>'},
+    {name:'rain cloud', svg:'<svg viewBox="0 0 64 64"><path d="M18 34a10 10 0 0 1 1-20 13 13 0 0 1 25-4 11 11 0 0 1 2 22z" fill="#cfc4e6"/><g stroke="#5e9eff" stroke-width="3" stroke-linecap="round"><line x1="22" y1="44" x2="19" y2="52"/><line x1="34" y1="44" x2="31" y2="52"/><line x1="46" y1="44" x2="43" y2="52"/></g></svg>'},
+    {name:'rainbow arc', svg:'<svg viewBox="0 0 64 64"><path d="M6 50a26 26 0 0 1 52 0" fill="none" stroke="#ff5e8a" stroke-width="5"/><path d="M12 50a20 20 0 0 1 40 0" fill="none" stroke="#ffb84d" stroke-width="5"/><path d="M18 50a14 14 0 0 1 28 0" fill="none" stroke="#5ef2ff" stroke-width="5"/></svg>'},
+    {name:'flower bloom', svg:'<svg viewBox="0 0 64 64"><g fill="#ff8cd6"><ellipse cx="32" cy="16" rx="8" ry="11"/><ellipse cx="32" cy="48" rx="8" ry="11"/><ellipse cx="16" cy="32" rx="11" ry="8"/><ellipse cx="48" cy="32" rx="11" ry="8"/></g><circle cx="32" cy="32" r="8" fill="#ffd15e"/></svg>'},
+    {name:'four leaf clover', svg:'<svg viewBox="0 0 64 64"><g fill="#6dd15e"><ellipse cx="24" cy="24" rx="10" ry="9" transform="rotate(-20 24 24)"/><ellipse cx="40" cy="24" rx="10" ry="9" transform="rotate(20 40 24)"/><ellipse cx="24" cy="40" rx="10" ry="9" transform="rotate(20 24 40)"/><ellipse cx="40" cy="40" rx="10" ry="9" transform="rotate(-20 40 40)"/></g><line x1="32" y1="44" x2="32" y2="58" stroke="#4a9e3e" stroke-width="3" stroke-linecap="round"/></svg>'},
+    {name:'potted cactus', svg:'<svg viewBox="0 0 64 64"><path d="M28 20a4 4 0 0 1 8 0v24h-8z" fill="#6dd15e"/><path d="M20 28a4 4 0 0 1 8 0v10h-8z" fill="#6dd15e"/><path d="M36 24a4 4 0 0 1 8 0v10h-8z" fill="#6dd15e"/><rect x="18" y="44" width="28" height="14" rx="2" fill="#ff8a5e"/></svg>'},
+    {name:'spotted mushroom', svg:'<svg viewBox="0 0 64 64"><path d="M12 30a20 12 0 0 1 40 0z" fill="#ff5e5e"/><circle cx="24" cy="20" r="2.5" fill="#f3ecf9"/><circle cx="38" cy="18" r="2" fill="#f3ecf9"/><circle cx="32" cy="26" r="2" fill="#f3ecf9"/><rect x="24" y="30" width="16" height="18" rx="6" fill="#f3ecf9"/></svg>'},
+    {name:'gem stone', svg:'<svg viewBox="0 0 64 64"><path d="M16 24l16-14 16 14-16 30z" fill="#5e9eff"/><path d="M16 24h32l-16 30z" fill="#5ef2ff"/></svg>'},
+    {name:'royal crown', svg:'<svg viewBox="0 0 64 64"><path d="M10 44l4-20 12 12 6-18 6 18 12-12 4 20z" fill="#ffd15e"/><rect x="10" y="44" width="44" height="8" rx="2" fill="#ffb84d"/></svg>'},
+    {name:'rocket ship', svg:'<svg viewBox="0 0 64 64"><path d="M32 6c8 8 10 22 8 32H24c-2-10 0-24 8-32z" fill="#ff5e8a"/><circle cx="32" cy="26" r="5" fill="#5ef2ff"/><path d="M24 38l-8 10 10-3z" fill="#b18cff"/><path d="M40 38l8 10-10-3z" fill="#b18cff"/><path d="M28 40h8l-4 16z" fill="#ffb84d"/></svg>'},
+    {name:'flying saucer', svg:'<svg viewBox="0 0 64 64"><ellipse cx="32" cy="34" rx="26" ry="8" fill="#8cff5e"/><path d="M18 30a14 10 0 0 1 28 0z" fill="#cfc4e6"/><circle cx="24" cy="34" r="2" fill="#ffd15e"/><circle cx="32" cy="36" r="2" fill="#ffd15e"/><circle cx="40" cy="34" r="2" fill="#ffd15e"/></svg>'},
+    {name:'robot face', svg:'<svg viewBox="0 0 64 64"><rect x="14" y="18" width="36" height="30" rx="8" fill="#5ef2ff"/><circle cx="26" cy="34" r="4" fill="#22143a"/><circle cx="38" cy="34" r="4" fill="#22143a"/><rect x="24" y="42" width="16" height="3" rx="1.5" fill="#22143a"/><line x1="32" y1="18" x2="32" y2="8" stroke="#5ef2ff" stroke-width="3"/><circle cx="32" cy="6" r="3" fill="#ff5e8a"/></svg>'},
+    {name:'little ghost', svg:'<svg viewBox="0 0 64 64"><path d="M16 52V28a16 16 0 0 1 32 0v24l-5-5-5 5-6-5-6 5-5-5z" fill="#e8e0f5"/><circle cx="25" cy="28" r="3" fill="#22143a"/><circle cx="39" cy="28" r="3" fill="#22143a"/></svg>'},
+    {name:'cat face', svg:'<svg viewBox="0 0 64 64"><path d="M14 14l10 12h16l10-12-4 18a18 16 0 0 1-28 0z" fill="#ffb84d"/><circle cx="24" cy="34" r="2.5" fill="#22143a"/><circle cx="40" cy="34" r="2.5" fill="#22143a"/><path d="M29 40q3 3 6 0" stroke="#22143a" stroke-width="2" fill="none" stroke-linecap="round"/></svg>'},
+    {name:'fox face', svg:'<svg viewBox="0 0 64 64"><path d="M12 16l14 10-2 14-8-2z" fill="#ff8a5e"/><path d="M52 16l-14 10 2 14 8-2z" fill="#ff8a5e"/><path d="M18 26a18 16 0 0 1 28 0l4 12a16 14 0 0 1-36 0z" fill="#ff8a5e"/><path d="M27 34a5 6 0 0 1 10 0 5 8 0 0 1-10 0z" fill="#f3ecf9"/><circle cx="26" cy="32" r="2" fill="#22143a"/><circle cx="38" cy="32" r="2" fill="#22143a"/></svg>'},
+    {name:'swimming fish', svg:'<svg viewBox="0 0 64 64"><ellipse cx="28" cy="32" rx="18" ry="12" fill="#5e9eff"/><path d="M46 32l12-10v20z" fill="#5e9eff"/><circle cx="20" cy="30" r="2.5" fill="#22143a"/><path d="M14 32q6 4 10 0" stroke="#5ef2ff" stroke-width="2" fill="none"/></svg>'},
+    {name:'butterfly', svg:'<svg viewBox="0 0 64 64"><g fill="#e05eff"><ellipse cx="18" cy="22" rx="12" ry="9" transform="rotate(-15 18 22)"/><ellipse cx="46" cy="22" rx="12" ry="9" transform="rotate(15 46 22)"/><ellipse cx="20" cy="40" rx="9" ry="7" transform="rotate(-10 20 40)"/><ellipse cx="44" cy="40" rx="9" ry="7" transform="rotate(10 44 40)"/></g><rect x="30" y="16" width="4" height="30" rx="2" fill="#22143a"/></svg>'},
+    {name:'ice cream', svg:'<svg viewBox="0 0 64 64"><path d="M22 30h20l-9 28z" fill="#ffb84d"/><circle cx="32" cy="24" r="14" fill="#ff8cd6"/><circle cx="24" cy="18" r="3" fill="#f3ecf9"/></svg>'},
+    {name:'frosted cupcake', svg:'<svg viewBox="0 0 64 64"><path d="M18 34h28l-4 22H22z" fill="#ffb84d"/><path d="M16 34a16 12 0 0 1 32 0z" fill="#ff8cd6"/><circle cx="32" cy="14" r="3" fill="#ff5e5e"/></svg>'},
+    {name:'coffee cup', svg:'<svg viewBox="0 0 64 64"><path d="M14 24h28v18a10 10 0 0 1-10 10H24a10 10 0 0 1-10-10z" fill="#c88a5e"/><path d="M42 28h4a7 7 0 0 1 0 14h-4" fill="none" stroke="#c88a5e" stroke-width="4"/><path d="M20 18c2-4-2-4 0-8M28 18c2-4-2-4 0-8" stroke="#cfc4e6" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>'},
+    {name:'gift box', svg:'<svg viewBox="0 0 64 64"><rect x="12" y="26" width="40" height="26" fill="#5e9eff"/><rect x="12" y="26" width="40" height="8" fill="#ffd15e"/><rect x="28" y="26" width="8" height="26" fill="#ffd15e"/><path d="M32 26c-6-10-16-8-16-2s10 2 16 2zM32 26c6-10 16-8 16-2s-10 2-16 2z" fill="#ffd15e"/></svg>'},
+    {name:'melody note', svg:'<svg viewBox="0 0 64 64"><path d="M42 8v30" stroke="#c6ff5e" stroke-width="4" stroke-linecap="round"/><path d="M42 8c8-2 12 2 12 6" stroke="#c6ff5e" stroke-width="4" fill="none" stroke-linecap="round"/><ellipse cx="34" cy="42" rx="10" ry="8" fill="#c6ff5e"/></svg>'},
+    {name:'bright bulb', svg:'<svg viewBox="0 0 64 64"><circle cx="32" cy="26" r="16" fill="#ffe45e"/><rect x="26" y="40" width="12" height="10" rx="2" fill="#cfc4e6"/><g stroke="#ffe45e" stroke-width="2.5" stroke-linecap="round"><line x1="32" y1="2" x2="32" y2="8"/><line x1="10" y1="26" x2="4" y2="26"/><line x1="54" y1="26" x2="60" y2="26"/></g></svg>'},
+    {name:'compass rose', svg:'<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="24" fill="none" stroke="#ffb84d" stroke-width="3"/><path d="M32 14l6 18-6 18-6-18z" fill="#ff5e8a"/></svg>'}
+  ]
+});
+
+
+const main = document.getElementById('main');
+const drawer = document.getElementById('drawer');
+let totalCount = 0;
+
+CATS.forEach((cat, ci) => {
+  totalCount += cat.items.length;
+  const accent = ACCENTS[ci % ACCENTS.length];
+
+  // nav link
+  const a = document.createElement('a');
+  a.href = '#cat-' + cat.key;
+  a.style.setProperty('--dot', accent);
+  a.innerHTML = '<span>'+cat.title+'</span><span class="n">'+cat.items.length+'</span>';
+  drawer.appendChild(a);
+
+  // section
+  const section = document.createElement('section');
+  section.className = 'cat';
+  section.id = 'cat-' + cat.key;
+  section.style.setProperty('--accent', accent);
+
+  const head = document.createElement('div');
+  head.className = 'cat-head';
+  head.innerHTML = '<h2>'+cat.title+'</h2><span class="count">'+cat.items.length+' symbols</span>';
+  section.appendChild(head);
+
+  const desc = document.createElement('p');
+  desc.className = 'cat-desc';
+  desc.textContent = cat.desc;
+  section.appendChild(desc);
+
+  const grid = document.createElement('div');
+  grid.className = 'grid';
+
+  cat.items.forEach(it => {
+    const card = document.createElement('div');
+    card.setAttribute('data-name', (it.name||'').toLowerCase());
+    card.setAttribute('data-cat', cat.title.toLowerCase());
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('role','button');
+
+    if(cat.isIconPack){
+      card.className = 'card icon-card';
+      card.setAttribute('data-icon', '1');
+      card.setAttribute('aria-label', 'Copy icon ' + it.name + ' as image');
+      card.innerHTML = '<span class="glyph">'+it.svg+'</span><span class="label">'+(it.name||'')+'</span>';
+    } else {
+      const anim = it.anim || cat.anim || ANIMS[Math.floor(Math.random()*ANIMS.length)];
+      card.className = 'card ' + anim;
+      card.setAttribute('aria-label', 'Copy symbol ' + it.name);
+      card.innerHTML = '<span class="glyph">'+it.sym+'</span><span class="label">'+(it.name||'')+'</span>';
+    }
+    grid.appendChild(card);
+  });
+
+  section.appendChild(grid);
+  main.appendChild(section);
+});
+
+document.getElementById('statTotal').textContent = totalCount.toLocaleString();
+document.getElementById('statCats').textContent = CATS.length;
+document.getElementById('footCount').textContent = totalCount.toLocaleString() + ' symbols across ' + CATS.length + ' categories';
+
+/* =========================================================
+   COPY TO CLIPBOARD
+   ========================================================= */
+const toast = document.getElementById('toast');
+const toastGlyph = document.getElementById('toastGlyph');
+const toastText = document.getElementById('toastText');
+let toastTimer = null;
+
+function flashCard(card, glyphHTML, label){
+  card.classList.add('copied');
+  setTimeout(()=>card.classList.remove('copied'), 500);
+  toastGlyph.innerHTML = glyphHTML;
+  toastText.textContent = label;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>toast.classList.remove('show'), 1600);
+}
+
+function copyIconAsImage(card, it){
+  const svgMarkup = card.querySelector('.glyph').innerHTML;
+  const size = 256;
+  const svgBlob = new Blob(
+    ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="'+size+'" height="'+size+'">'+svgMarkup.replace(/^<svg[^>]*>/,'').replace(/<\/svg>$/,'')+'</svg>'],
+    {type:'image/svg+xml;charset=utf-8'}
+  );
+  const url = URL.createObjectURL(svgBlob);
+  const img = new Image();
+  img.onload = () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = size; canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, size, size);
+    URL.revokeObjectURL(url);
+    canvas.toBlob(blob => {
+      if(navigator.clipboard && window.ClipboardItem && blob){
+        navigator.clipboard.write([new ClipboardItem({'image/png': blob})])
+          .then(()=> flashCard(card, card.querySelector('.glyph').innerHTML, 'Copied — ' + it.name + ' (image)'))
+          .catch(()=> downloadIcon(canvas, it, card));
+      } else {
+        downloadIcon(canvas, it, card);
+      }
+    }, 'image/png');
+  };
+  img.onerror = () => downloadIcon(null, it, card);
+  img.src = url;
+}
+
+function downloadIcon(canvas, it, card){
+  if(canvas){
+    const link = document.createElement('a');
+    link.download = 'icon-' + it.name.replace(/\s+/g,'-') + '.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+  flashCard(card, card.querySelector('.glyph').innerHTML, 'Downloaded — ' + it.name + '.png');
+}
+
+function copyCard(card){
+  if(card.getAttribute('data-icon')){
+    const name = card.getAttribute('data-name');
+    const cat = CATS.find(c => c.isIconPack);
+    const it = cat.items.find(x => x.name.toLowerCase() === name);
+    if(it) copyIconAsImage(card, it);
+    return;
+  }
+  const glyph = card.querySelector('.glyph').textContent;
+  const label = card.querySelector('.label').textContent;
+  const finish = () => flashCard(card, glyph, 'Copied — ' + label);
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(glyph).then(finish).catch(finish);
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = glyph;
+    document.body.appendChild(ta);
+    ta.select();
+    try{ document.execCommand('copy'); }catch(e){}
+    document.body.removeChild(ta);
+    finish();
+  }
+}
+
+main.addEventListener('click', e => {
+  const card = e.target.closest('.card');
+  if(card) copyCard(card);
+});
+main.addEventListener('keydown', e => {
+  if(e.key === 'Enter' || e.key === ' '){
+    const card = e.target.closest('.card');
+    if(card){ e.preventDefault(); copyCard(card); }
+  }
+});
+
+/* =========================================================
+   SEARCH / FILTER
+   ========================================================= */
+const search = document.getElementById('search');
+search.addEventListener('input', () => {
+  const q = search.value.trim().toLowerCase();
+  document.querySelectorAll('section.cat').forEach(section => {
+    let visible = 0;
+    section.querySelectorAll('.card').forEach(card => {
+      const match = !q || card.getAttribute('data-name').includes(q) || card.getAttribute('data-cat').includes(q);
+      card.style.display = match ? '' : 'none';
+      if(match) visible++;
+    });
+    section.style.display = visible === 0 ? 'none' : '';
+  });
+});
+
+/* =========================================================
+   SCROLL REVEAL — stagger cards into view
+   ========================================================= */
+const cardIO = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      const grid = entry.target;
+      Array.from(grid.children).forEach((card, i) => {
+        card.style.animationDelay = (i % 24) * 0.02 + 's';
+        card.classList.add('in-view');
+      });
+      cardIO.unobserve(grid);
+    }
+  });
+}, { rootMargin: '0px 0px -10% 0px', threshold: 0.05 });
+document.querySelectorAll('.grid').forEach(g => cardIO.observe(g));
+
+/* =========================================================
+   ACTIVE NAV HIGHLIGHT ON SCROLL
+   ========================================================= */
+const navLinks = Array.from(drawer.querySelectorAll('a'));
+const sections = Array.from(document.querySelectorAll('section.cat'));
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      const id = entry.target.id;
+      navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#'+id));
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => io.observe(s));
+</script>
+</body>
+</html>
